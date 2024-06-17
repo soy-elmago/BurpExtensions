@@ -16,9 +16,7 @@ Welcome to my collection of Burp Suite extensions! This repository features a va
 ## Extensions Included:
 
 **BurpLinkFinder** is a powerful Burp Suite extension designed for passive scanning of JavaScript files to uncover endpoint links. This tool simplifies the process of identifying potentially interesting endpoints within your web application's JavaScript files, making it an essential addition to your security testing toolkit. (credits to https://github.com/PortSwigger/js-link-finder)
-
-### Additional Enhancements:
-
+Additional Enhancements:
 - **Dynamic Search Filter**: A dynamic filter feature that allows you to refine the search results in real-time, making it easier to focus on the most relevant links.
 - **Scope Matching Checkbox**: An option to display only the results that match the defined scope in Burp Suite, ensuring that you see only the links pertinent to your current testing scope.
 
