@@ -11,12 +11,20 @@ Welcome to my collection of Burp Suite extensions! This repository features a va
 
 ## Getting Started:
 
-1. **Installation**: Download and import ("Add") the extension in your "Extensions" tab in Burp Suite
+1. **Installation**: Download and import ("Add") the extension in your "Extensions" tab in Burp Suite.
 
 ## Extensions Included:
 
-**BurpLinkFinder** is a powerful Burp Suite extension designed for passive scanning of JavaScript files to uncover endpoint links. This tool simplifies the process of identifying potentially interesting endpoints within your web application's JavaScript files, making it an essential addition to your security testing toolkit. (credits to https://github.com/PortSwigger/js-link-finder)
+### BurpLinkFinder
+**BurpLinkFinder** is a powerful Burp Suite extension designed for passive scanning of JavaScript files to uncover endpoint links. This tool simplifies the process of identifying potentially interesting endpoints within your web application's JavaScript files, making it an essential addition to your security testing toolkit. (Credits to https://github.com/PortSwigger/js-link-finder)
+
 Additional Enhancements:
 - **Dynamic Search Filter**: A dynamic filter feature that allows you to refine the search results in real-time, making it easier to focus on the most relevant links.
 - **Scope Matching Checkbox**: An option to display only the results that match the defined scope in Burp Suite, ensuring that you see only the links pertinent to your current testing scope.
 
+### salesforce-aura.py (Burp Suite Lightning)
+A Python-based version of the original Salesforce Lightning extension for Burp Suite, updated to work with the latest stable version of Burp Suite Pro (2024.8.5). Originally written in Java:
+[https://github.com/salesforce/lightning-burp](https://github.com/salesforce/lightning-burp)
+
+### facebook_request_cleaner.py
+A request minimizer for Facebook that cleans unused cookies and decodes parameters in a more readable format, removing unnecessary ones.
