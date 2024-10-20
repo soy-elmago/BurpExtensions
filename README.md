@@ -2,6 +2,9 @@
 
 Welcome to my collection of Burp Suite extensions! This repository features a variety of tools designed to enhance and expand the capabilities of Burp Suite. Here, you'll find both my custom-built extensions and modified versions of popular existing ones, each tailored to provide additional functionalities and improve your testing workflow.
 
+**Disclaimer:** 
+_Most of the code was written by artificial intelligence. I don’t claim to have developer skills, just prompt writing skills xD_
+
 ## Features:
 
 - **Custom Extensions**: Unique tools I've developed to address specific needs or improve upon existing functionalities within Burp Suite.
