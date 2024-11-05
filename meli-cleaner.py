@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from burp import IBurpExtender, IHttpListener, IContextMenuFactory
+from burp import IBurpExtender, IContextMenuFactory
 from javax.swing import JMenuItem
-from java.util import List, ArrayList
+from java.util import ArrayList
 from java.io import PrintWriter
 
 class BurpExtender(IBurpExtender, IContextMenuFactory):
@@ -13,7 +13,6 @@ class BurpExtender(IBurpExtender, IContextMenuFactory):
         self.stdout = PrintWriter(callbacks.getStdout(), True)
         
         callbacks.registerContextMenuFactory(self)
-
         self.stdout.println("Mercado Libre/Mercado Pago Request Cleaner by @soyelmago")
 
     def createMenuItems(self, invocation):
@@ -34,65 +33,54 @@ class BurpExtender(IBurpExtender, IContextMenuFactory):
         body = request[analyzedRequest.getBodyOffset():]
 
         initial_line = headers[0]
-
-        is_web_request = False
-        is_mobile_request = False
         new_headers = [initial_line]
+        
         host_header = None
         te_header = None
-        
-        url = self.helpers.analyzeRequest(messageInfo).getUrl()
-        if "mercadolibre.com" not in url.getHost() and "mercadopago.com" not in url.getHost():
-            return  
-        
+        user_agent_header = None
+        nat_value = None
         ssid_value = None
         orguseridp_value = None
         
+        url = self.helpers.analyzeRequest(messageInfo).getUrl()
+        if "mercadolibre.com" not in url.getHost() and "mercadopago.com" not in url.getHost():
+            return
+
         for header in headers:
-            if header.startswith("Authorization: Bearer "):
-                is_mobile_request = True
-            elif header.startswith("Cookie:"):
-                cookies = header.split("; ")
-                orguseridp_value = next((cookie for cookie in cookies if cookie.startswith("orguseridp=")), None)
-                ssid_value = next((cookie for cookie in cookies if cookie.startswith("ssid=")), None)
-                if ssid_value or orguseridp_value:
-                    is_web_request = True
-            elif header.startswith("Host:"):
+            if header.startswith("Host:"):
                 host_header = header
             elif header.startswith("Te:"):
                 te_header = header
-
-        if is_web_request:
-            cookie_header = "Cookie: "
-            cookie_elements = []
-            if orguseridp_value:
-                cookie_elements.append(orguseridp_value)
-            if ssid_value:
-                cookie_elements.append(ssid_value)
-            if cookie_elements:
-                cookie_header += "; ".join(cookie_elements)
-                new_headers.append(cookie_header)
-            
-            for header in headers:
-                if header.startswith("Origin:") or header.startswith("Content-Type:"):
-                    new_headers.append(header)
-            
-            if host_header:
-                new_headers.append(host_header)
-            if te_header:
-                new_headers.append(te_header)
-
-        elif is_mobile_request:
-            for header in headers:
-                if header.startswith("Authorization: Bearer "):
-                    new_headers.append(header)
-            if host_header:
-                new_headers.append(host_header)
-            if te_header:
-                new_headers.append(te_header)
+            elif header.startswith("User-Agent:"):
+                user_agent_header = header
+            elif header.startswith("Cookie:"):
+                cookies = header.split("; ")
+                nat_value = next((cookie for cookie in cookies if cookie.startswith("nat=")), None)
+                orguseridp_value = next((cookie for cookie in cookies if cookie.startswith("orguseridp=")), None)
+                ssid_value = next((cookie for cookie in cookies if cookie.startswith("ssid=")), None)
         
-        else:
-            return
+        cookie_header = "Cookie: "
+        cookie_elements = []
+        if nat_value:
+            cookie_elements.append(nat_value)
+        if orguseridp_value:
+            cookie_elements.append(orguseridp_value)
+        if ssid_value:
+            cookie_elements.append(ssid_value)
+        if cookie_elements:
+            cookie_header += "; ".join(cookie_elements)
+            new_headers.append(cookie_header)
+
+        for header in headers:
+            if header.startswith("Origin:") or header.startswith("Content-Type:"):
+                new_headers.append(header)
+        
+        if host_header:
+            new_headers.append(host_header)
+        if te_header:
+            new_headers.append(te_header)
+        if user_agent_header:
+            new_headers.append(user_agent_header)
 
         new_request = self.helpers.buildHttpMessage(new_headers, body)
         messageInfo.setRequest(new_request)
