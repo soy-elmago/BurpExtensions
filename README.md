@@ -34,3 +34,9 @@ A request minimizer for Facebook that cleans unused cookies and decodes paramete
 
 ### 💻 Meli-Cleaner.py
 **Meli-Cleaner** is a request minimizer for Mercado Libre / Mercado Pago (both Web and Mobile). It streamlines requests by cleaning up unnecessary cookies and parameters, helping to improve readability and focus.
+
+### 💻 b64toimage.py
+
+**b64toimage.py** es una extensión para Burp Suite que agrega una nueva pestaña en el Repeater llamada **"Decoded b64 Image"**. Esta solapa detecta automáticamente imágenes codificadas en base64 dentro del contenido de la respuesta HTTP y las muestra visualmente.
+
+Ideal para cuando estás trabajando con APIs, blobs o endpoints que embeben imágenes como `data:image/png;base64,...`, evitando tener que copiar el contenido y decodificarlo manualmente.
